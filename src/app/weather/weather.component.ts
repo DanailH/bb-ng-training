@@ -6,7 +6,7 @@ import { WeatherService } from '../services/weather.service';
 @Component({
   selector: 'app-weather',
   template: `
-    <div *ngIf="weatherData | async as data">
+    <div class="row" *ngIf="weatherData | async as data">
       <div class="col-12 text-center">
         {{ data.name }}
       </div>

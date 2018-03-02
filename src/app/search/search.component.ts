@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 
 import { WeatherService } from '../services/weather.service';
 import { weatherAction } from '../actions/weather';
+import { forecastAction } from '../actions/forecast';
 
 @Component({
   selector: 'app-search',
@@ -21,6 +22,13 @@ export class SearchComponent implements OnInit, OnDestroy {
   private search = new FormControl();
 
   constructor(private service: WeatherService, private store: Store<any>) {}
+
+  filterForecast(forecast: { list: Array<Object> }): Object {
+    return {
+      ...forecast,
+      list: forecast.list.slice(1, 6),
+    };
+  }
 
   ngOnInit(): void {
     const locationDataSource = new Subject();
@@ -46,7 +54,10 @@ export class SearchComponent implements OnInit, OnDestroy {
       );
 
     this.subscription = observable.subscribe(
-      weatherData => this.store.dispatch(weatherAction(weatherData))
+      weatherData => {
+        this.store.dispatch(weatherAction(weatherData.weather));
+        this.store.dispatch(forecastAction(this.filterForecast(weatherData.forecast)));
+      }
     );
   }
 

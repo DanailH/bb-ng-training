@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
+import { forkJoin } from "rxjs/observable/forkJoin";
 
-import { apiKey, openWeatherUrl, endPoint } from '../constants';
+import { apiKey, openWeatherUrl, weatherEndPoint, forecastEndPoint } from '../constants';
 
 interface Coordinates {
   latitude: number;
@@ -19,12 +21,20 @@ export class WeatherService {
       units: 'metric',
     };
 
-    if(typeof query === 'object') {
+    if (typeof query === 'object') {
       Object.assign(params, { lat: query.latitude, lon: query.longitude });
     } else {
       Object.assign(params, { q: query });
     }
 
-    return this.http.get(`${openWeatherUrl}/${endPoint}`, { params });
+    const weather = this.http.get(`${openWeatherUrl}/${weatherEndPoint}`, { params });
+    const forecast = this.http.get(`${openWeatherUrl}/${forecastEndPoint}`, { params });
+
+    return forkJoin([weather, forecast]).pipe(
+      map(data => ({
+        weather: data[0],
+        forecast: data[1],
+      }))
+    );
   }
 }

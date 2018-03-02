@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 
 import { weatherReducer } from './reducers/weather';
+import { forecastReducer } from './reducers/forecast';
  
 import { AppComponent } from './app.component';
 // Icon components
@@ -37,7 +38,10 @@ import { WeatherService } from './services/weather.service';
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forRoot({ weatherReducer }),
+    StoreModule.forRoot({
+      weatherReducer,
+      forecastReducer,
+    }),
   ],
   providers: [WeatherService],
   bootstrap: [AppComponent]
