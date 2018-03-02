@@ -12,7 +12,7 @@ import { WeatherService } from '../services/weather.service';
           <span class="col-4">{{ forecast.dt * 1000 | date: 'mediumDate' }}</span>
           <span class="col text-right">{{ forecast.temp.min | number: '1.0-0' }} &deg;C</span>
           <span class="col text-right">{{ forecast.temp.max | number: '1.0-0' }} &deg;C</span>
-          <span class="col">{{ forecast.weather[0].main }}</span>
+          <span class="col"><app-svg-icon [type]="forecast.weather[0].main"></app-svg-icon></span>
         </div>
       </div>
     </div>

@@ -134,7 +134,7 @@ body {
   stroke-width: 1;
 }
 
-.hurricane-svg .line {
+.rain-svg .line, .hurricane-svg .line {
   stroke: #BAE2E0;
   opacity: 1;
   -webkit-animation: fadeIn 0.8s ease-in alternate-reverse infinite;
